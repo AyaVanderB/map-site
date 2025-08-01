@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高校去向地图</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .map-container {
+      position: relative;
+      width: 1000px;
+      height: 1000px;
+      margin: 30px auto;
+      background-image: url('map/china-full.png');
+      background-size: cover;
+      border: 2px solid #ccc;
+    }
+    .province-button {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: transparent;
+      border: 2px solid rgb(0, 0, 0);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .university-icon{
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      cursor: pointer;
+      display: none;
+    }
+    .person-icon {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      cursor: pointer;
+      display: none;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 187, 255, 0.6);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .overlay img {
+      width: 400px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+  </style>
+</head>
+<body>
+  <div class="map-container" id="map">
+    <!-- ✅ 省份按钮 -->
+    <button class="province-button" style="left: 550px; top: 500px;" onclick="openProvince('jiangsu')"></button>
+    <button class="province-button" style="left: 460px; top: 350px;" onclick="openProvince('beijing')"></button>
+    <button class="province-button" style="left: 600px; top: 150px;" onclick="openProvince('heilongjiang')"></button>
+    <button class="province-button" style="left: 600px; top: 250px;" onclick="openProvince('jilin')"></button>
+    <button class="province-button" style="left: 550px; top: 300px;" onclick="openProvince('liaoning')"></button>
+    <button class="province-button" style="left: 480px; top: 375px;" onclick="openProvince('tianjing')"></button>
+    <button class="province-button" style="left: 500px; top: 450px;" onclick="openProvince('shandong')"></button>
+    <button class="province-button" style="left: 560px; top: 600px;" onclick="openProvince('zhejiang')"></button>
+    <button class="province-button" style="left: 590px; top: 545px;" onclick="openProvince('shanghai')"></button>
+    <button class="province-button" style="left: 550px; top: 675px;" onclick="openProvince('fujian')"></button>
+    <button class="province-button" style="left: 440px; top: 750px;" onclick="openProvince('guangdong')"></button>
+    <button class="province-button" style="left: 450px; top: 785px;" onclick="openProvince('xianggang')"></button>
+    <button class="province-button" style="left: 355px; top: 880px;" onclick="openProvince('hainan')"></button>
+    <button class="province-button" style="left: 400px; top: 650px;" onclick="openProvince('hunan')"></button>
+    <button class="province-button" style="left: 400px; top: 575px;" onclick="openProvince('hubei')"></button>
+    <button class="province-button" style="left: 340px; top: 450px;" onclick="openProvince('shanxi')"></button>
+    <button class="province-button" style="left: 200px; top: 600px;" onclick="openProvince('sichuan')"></button>
+    <button class="province-button" style="left: 850px; top: 770px;" onclick="openProvince('adly')"></button>
+    <!-- 添加更多省份按钮时，复制上方按钮，并修改坐标和 openProvince 参数 -->
+
+    <!-- ✅ 大学图标 -->
+     <!-- 江苏 -->
+    <img class="university-icon" data-province="jiangsu" src="college/nanjing-col-1.png" style="left: 200px; top: 200px;" onclick="openUniversity('nanjingdaxue')" />
+    <img class="university-icon" data-province="jiangsu" src="college/nanjing-col-2.png" style="left: 400px; top: 400px;" onclick="openUniversity('zhongyao')" />
+    <img class="university-icon" data-province="jiangsu" src="college/nanjing-col-3.png" style="left: 600px; top: 600px;" onclick="openUniversity('nanli')" />
+    <!-- 北京 -->
+    <img class="university-icon" data-province="beijing" src="college/beijing-col-1.png" style="left: 0px; top: 0px;" onclick="openUniversity('beiyou')" />
+    <img class="university-icon" data-province="beijing" src="college/beijing-col-2.png" style="left: 200px; top: 200px;" onclick="openUniversity('yangcai')" />
+    <img class="university-icon" data-province="beijing" src="college/beijing-col-3.png" style="left: 400px; top: 400px;" onclick="openUniversity('gongan')" />
+    <img class="university-icon" data-province="beijing" src="college/beijing-col-4.png" style="left: 600px; top: 600px;" onclick="openUniversity('zhongnong')" />
+    <img class="university-icon" data-province="beijing" src="college/beijing-col-5.png" style="left: 800px; top: 800px;" onclick="openUniversity('beishi')" />
+    <!-- 黑龙江 -->
+    <img class="university-icon" data-province="heilongjiang" src="college/heilingjiang-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('hagongcheng')" />
+    <!-- 吉林 -->
+    <img class="university-icon" data-province="jilin" src="college/jilin-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('jida')" />
+    <!-- 辽宁 -->
+    <img class="university-icon" data-province="liaoning" src="college/liaoning-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('dongda')" />
+    <!-- 天津 -->
+    <img class="university-icon" data-province="tianjing" src="college/tianjing-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('tianda')" />
+    <!-- 山东 -->
+    <img class="university-icon" data-province="shandong" src="college/shandong-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('haida')" />
+    <!-- 浙江 -->
+    <img class="university-icon" data-province="zhejiang" src="college/zhejiang-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('zheda')" />
+    <!-- 上海 -->
+    <img class="university-icon" data-province="shanghai" src="college/shanghai-col-1.png" style="left: 300px; top: 300px;" onclick="openUniversity('shangli')" />
+    <img class="university-icon" data-province="shanghai" src="college/shanghai-col-2.png" style="left: 500px; top: 500px;" onclick="openUniversity('haiguan')" />
+    <!-- 福建 -->
+    <img class="university-icon" data-province="fujian" src="college/fujian-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('xiada')" />
+    <!-- 广东 -->
+    <img class="university-icon" data-province="guangdong" src="college/guangdong-col-1.png" style="left: 200px; top: 200px;" onclick="openUniversity('beili')" />
+    <img class="university-icon" data-province="guangdong" src="college/guangdong-col-2.png" style="left: 400px; top: 400px;" onclick="openUniversity('zhongshan')" />
+    <img class="university-icon" data-province="guangdong" src="college/guangdong-col-3.png" style="left: 600px; top: 600px;" onclick="openUniversity('hagongda')" />
+    <!-- 香港 -->
+    <img class="university-icon" data-province="xianggang" src="college/xianggang-col-1.png" style="left: 300px; top: 300px;" onclick="openUniversity('gangke')" />
+    <img class="university-icon" data-province="xianggang" src="college/xianggang-col-2.png" style="left: 500px; top: 500px;" onclick="openUniversity('gangcheng')" />
+    <!-- 海南 -->
+    <img class="university-icon" data-province="hainan" src="college/hainan-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('mali')" />
+    <!-- 湖南 -->
+    <img class="university-icon" data-province="hunan" src="college/hunan-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('zhongnan')" />
+    <!-- 湖北 -->
+    <img class="university-icon" data-province="hubei" src="college/hubei-col-1.png" style="left: 200px; top: 200px;" onclick="openUniversity('wuda')" />
+    <img class="university-icon" data-province="hubei" src="college/hubei-col-2.png" style="left: 400px; top: 400px;" onclick="openUniversity('huake')" />
+    <img class="university-icon" data-province="hubei" src="college/hubei-col-3.png" style="left: 600px; top: 600px;" onclick="openUniversity('wuli')" />
+    <!-- 陕西 -->
+    <img class="university-icon" data-province="shanxi" src="college/shanxi-col-1.png" style="left: 300px; top: 300px;" onclick="openUniversity('shanshi')" />
+    <img class="university-icon" data-province="shanxi" src="college/shanxi-col-2.png" style="left: 500px; top: 500px;" onclick="openUniversity('xidian')" />
+    <!-- 四川 -->
+    <img class="university-icon" data-province="sichuan" src="college/sichuan-col-1.png" style="left: 200px; top: 200px;" onclick="openUniversity('dianke')" />
+    <img class="university-icon" data-province="sichuan" src="college/sichuan-col-2.png" style="left: 400px; top: 400px;" onclick="openUniversity('xicai')" />
+    <img class="university-icon" data-province="sichuan" src="college/sichuan-col-3.png" style="left: 600px; top: 600px;" onclick="openUniversity('chuanda')" />
+    <!-- 澳大利亚 -->
+     <img class="university-icon" data-province="adly" src="college/adly-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('xinnan')" />
+
+
+    <!-- 添加更多大学图标时，复制上方 img，修改 data-province、src、坐标和 openUniversity 参数 -->
+
+    <!-- ✅ 人物图标 -->
+    <img class="person-icon" data-university="nanjingdaxue" src="people/1-jhx-icon.png" style="left: 630px; top: 440px;" onclick="showPersonOverlay('person1')" />
+    <img class="person-icon" data-university="beiyou" src="people/2-lzy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person2')" />
+    <img class="person-icon" data-university="beiyou" src="people/3-wat-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person3')" />
+    <img class="person-icon" data-university="beiyou" src="people/4-wdh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person4')" />
+    <img class="person-icon" data-university="yangcai" src="people/5-zmx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person5')" />
+    <img class="person-icon" data-university="gongan" src="people/6-pzy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person6')" />
+    <img class="person-icon" data-university="gongan" src="people/7-lzt-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person7')" />
+    <img class="person-icon" data-university="zhongnong" src="people/8-zyx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person8')" />
+    <img class="person-icon" data-university="beishi" src="people/9-gcy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person9')" />
+    <img class="person-icon" data-university="zhongyao" src="people/10-xyx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person10')" />
+    <img class="person-icon" data-university="nanli" src="people/11-gsy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person11')" />
+    <img class="person-icon" data-university="nanli" src="people/12-trh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person12')" />
+    <img class="person-icon" data-university="hagongcheng" src="people/13-xqy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person13')" />
+    <img class="person-icon" data-university="jida" src="people/14-ymq-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person14')" />
+    <img class="person-icon" data-university="jida" src="people/15-zyf-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person15')" />
+    <img class="person-icon" data-university="dongda" src="people/16-tzd-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person16')" />
+    <img class="person-icon" data-university="tianda" src="people/17-jra-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person17')" />
+    <img class="person-icon" data-university="tianda" src="people/18-cst-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person18')" />
+    <img class="person-icon" data-university="tianda" src="people/19-gcy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person19')" />
+    <img class="person-icon" data-university="haida" src="people/20-csy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person20')" />
+    <img class="person-icon" data-university="zhejiang" src="people/21-byy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person21')" />
+    <img class="person-icon" data-university="shangli" src="people/22-syh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person22')" />
+    <img class="person-icon" data-university="haiguan" src="people/23-mjj-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person23')" />
+    <img class="person-icon" data-university="xiada" src="people/24-cyb-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person24')" />
+    <img class="person-icon" data-university="zhongshan" src="people/25-xsh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person25')" />
+    <img class="person-icon" data-university="hagongda" src="people/26-ffb-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person26')" />
+    <img class="person-icon" data-university="beili" src="people/27-yyy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person27')" />
+    <img class="person-icon" data-university="beili" src="people/28-lys-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person28')" />
+    <img class="person-icon" data-university="beili" src="people/29-xjh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person29')" />
+    <img class="person-icon" data-university="gangke" src="people/30-wyx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person30')" />
+    <img class="person-icon" data-university="gangcheng" src="people/31-wzs-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person31')" />
+    <img class="person-icon" data-university="mali" src="people/32-hmx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person32')" />
+    <img class="person-icon" data-university="zhongnan" src="people/33-dzx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person33')" />
+    <img class="person-icon" data-university="wuda" src="people/34-lyc-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person34')" />
+    <img class="person-icon" data-university="wuda" src="people/35-wqh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person35')" />
+    <img class="person-icon" data-university="huake" src="people/36-zwh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person36')" />
+    <img class="person-icon" data-university="huake" src="people/37-zxw-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person37')" />
+    <img class="person-icon" data-university="huake" src="people/38-yyz-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person38')" />
+    <img class="person-icon" data-university="wuli" src="people/39-lzy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person39')" />
+    <img class="person-icon" data-university="shanshi" src="people/40-hjy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person40')" />
+    <img class="person-icon" data-university="xidian" src="people/41-cly-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person41')" />
+    <img class="person-icon" data-university="xidian" src="people/42-zzy-icon.png" style="left: 400px; top: 400px;" onclick="showPersonOverlay('person42')" />
+    <img class="person-icon" data-university="xidian" src="people/43-zzd-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person43')" />
+    <img class="person-icon" data-university="xidian" src="people/44-zyy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person44')" />
+    <img class="person-icon" data-university="dianke" src="people/45-xhy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person45')" />
+    <img class="person-icon" data-university="dianke" src="people/46-xjy-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person46')" />
+    <img class="person-icon" data-university="xicai" src="people/47-wxh-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person47')" />
+    <img class="person-icon" data-university="chuanda" src="people/48-hkl-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person48')" />
+    <img class="person-icon" data-university="xinnan" src="people/49-ysx-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person49')" />
+    <!-- 添加更多人物图标时，复制上方 img，修改 data-university、src、坐标和 showPersonOverlay 参数 -->
+  </div>
+
+  <!-- ✅ 人物全屏展示层 -->
+  <div class="overlay" id="personOverlay">
+    <img src="" id="personImage" />
+    <div id="personText">人物介绍</div>
+    <button class="back-button" style="top: 100px;" onclick="backToUniversity()">返回大学</button>
+  </div>
+
+  <!-- ✅ 地图返回按钮 -->
+  <button class="back-button" id="mapBackBtn" style="display:none;" onclick="backToMap()">返回地图</button>
+
+  <!-- ✅ 大学返回按钮 -->
+  <button class="back-button" id="universityBackBtn" style="display:none; top: 60px;" onclick="backToProvince()">返回省份</button>
+
+  <script>
+    let currentProvince = null;
+    let currentUniversity = null;
+
+    function openProvince(province) {
+      currentProvince = province;
+      // 显示对应大学，隐藏所有省份按钮
+      document.querySelectorAll('.university-icon').forEach(icon => {
+        icon.style.display = icon.dataset.province === province ? 'block' : 'none';
+      });
+      document.querySelectorAll('.province-button').forEach(btn => btn.style.display = 'none');
+      document.getElementById('mapBackBtn').style.display = 'block';
+    }
+
+    function backToMap() {
+      currentProvince = null;
+      document.querySelectorAll('.university-icon').forEach(icon => icon.style.display = 'none');
+      document.querySelectorAll('.province-button').forEach(btn => btn.style.display = 'block');
+      document.getElementById('mapBackBtn').style.display = 'none';
+    }
+
+    function openUniversity(university) {
+      currentUniversity = university;
+      // 显示该大学人物
+      document.querySelectorAll('.person-icon').forEach(icon => {
+        icon.style.display = icon.dataset.university === university ? 'block' : 'none';
+      });
+      document.querySelectorAll('.university-icon').forEach(icon => icon.style.display = 'none');
+      document.getElementById('universityBackBtn').style.display = 'block';
+    }
+
+    function backToProvince() {
+      currentUniversity = null;
+      document.querySelectorAll('.person-icon').forEach(icon => icon.style.display = 'none');
+      document.querySelectorAll('.university-icon').forEach(icon => {
+        if (icon.dataset.province === currentProvince) {
+          icon.style.display = 'block';
+        }
+      });
+      document.getElementById('universityBackBtn').style.display = 'none';
+    }
+
+    const personInfo = {
+    person1: '姓名: 吉浩祥 <br>大学: 南京大学 <br>专业: <br>我的留言: ',
+    person2: '姓名: 李子阳 <br>大学: 北京邮电大学 <br>专业:计算机类 <br>我的留言: 张万豪妈死了',
+    person3: '姓名:王傲天  <br>大学:  <br>专业: <br>我的留言: ',
+    person4: '姓名:吴多禾  <br>大学:  <br>专业: <br>我的留言: ',
+    person5: '姓名:彭子芸  <br>大学:  <br>专业: <br>我的留言: ',
+    person6: '姓名:林振泰  <br>大学:  <br>专业: <br>我的留言: ',
+    person7: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person8: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person9: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person10: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person11: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person12: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person13: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person14: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person15: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person16: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person17: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person18: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person19: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person20: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person21: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person22: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person23: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person24: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person25: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person26: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person27: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person28: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person29: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person30: '姓名:  <br>大学:  <br>专业: <br>我的留言: ',
+    person31: '姓名:王则深 <br>大学: <br>专业: <br>我的留言: ',
+    person32: '姓名:何墨轩 <br>大学: <br>专业: <br>我的留言: ',
+    person33: '姓名:董振轩 <br>大学: <br>专业: <br>我的留言: ',
+    person34: '姓名:林奕辰 <br>大学: <br>专业: <br>我的留言: ',
+    person35: '姓名:万启涵 <br>大学: <br>专业: <br>我的留言: ',
+    person36: '姓名:张皖豪 <br>大学: <br>专业: <br>我的留言: ',
+    person37: '姓名:钟晓文 <br>大学: <br>专业: <br>我的留言: ',
+    person38: '姓名:杨逸之 <br>大学: <br>专业: <br>我的留言: ',
+    person39: '姓名:卢泽宇 <br>大学: <br>专业: <br>我的留言: ',
+    person40: '姓名:黄君颖 <br>大学: <br>专业: <br>我的留言: ',
+    person41: '姓名:陈柳嫣 <br>大学:西安电子科技大学 <br>专业: <br>我的留言: ',
+    person42: '姓名:赵子仪 <br>大学:西安电子科技大学 <br>专业:电子工程 <br>我的留言:西安简直就是一个乙游大世界。想要成熟稳重双开门有小黄老师，想要幽默不失风趣有黄君颖小蛋糕，<br> 如果想要我们的老公姐还有黑暗大帝黄君颖，要我说你们黄总粉丝吃的也真是太好了。今天我已经垂直入坑了！ ',
+    person43: '姓名:张之度 <br>大学:西安电子科技大学 <br>专业: <br>我的留言: ',
+    person44: '姓名:张艺严 <br>大学:西安电子科技大学 <br>专业:电子工程 <br>我的留言: ',
+    person45: '姓名:谢焕羽 <br>大学: <br>专业: <br>我的留言: ',
+    person46: '姓名:徐浚耀 <br>大学: <br>专业: <br>我的留言: ',
+    person47: '姓名:王星皓 <br>大学: <br>专业: <br>我的留言: ',
+    person48: '姓名:韩坤霖 <br>大学: <br>专业: <br>我的留言: ',
+    person49: '姓名:尹诗晓 <br>大学: <br>专业: <br>我的留言: ',
+
+
+
+  };
+
+    function showPersonOverlay(personId) {
+      // 你可以根据 personId 设置不同图片和文字
+      document.getElementById('personImage').src = `people/${personId}.png`;
+      document.getElementById('personText').innerHTML = personInfo[personId] || '暂无介绍';
+      document.getElementById('personOverlay').style.display = 'flex';
+    }
+
+    function backToUniversity() {
+      document.getElementById('personOverlay').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

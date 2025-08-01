@@ -42,18 +42,17 @@
       display: none;
     }
     .overlay {
-      position: fixed;              /* ✅ 固定在屏幕上，不随滚动移动 */
+      position: fixed;        /* 固定在视口上，不随滚动动 */
       top: 0;
       left: 0;
-      width: 100vw;                 /* ✅ 全屏宽度 */
-      height: 100vh;                /* ✅ 全屏高度 */
+      width: 100vw;           /* 占满整个视口宽度 */
+      height: 100vh;          /* 占满整个视口高度 */
       background-color: rgba(0, 187, 255, 0.6);
-      display: none;                /* 默认隐藏，JS打开时改成 flex */
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;     /* ✅ 水平+垂直都居中 */
-      padding: 30px;
-      text-align: center;
+      display: none;          /* 启用flex方便居中 */
+      align-items: center;    /* 垂直居中 */
+      justify-content: center;/* 水平居中 */
+      padding: 0;
+      margin: 0;
       z-index: 1000;
     }
 

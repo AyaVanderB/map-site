@@ -52,12 +52,16 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 20px;          /* 加点内边距避免贴边 */
+      box-sizing: border-box; /* 包含padding在宽高内 */
       z-index: 1000;
+      text-align: center;     /* 文字居中 */
     }
     .overlay img {
-      width: 400px;
+      width: 350px;        /* 图片最大宽度不要超屏幕 */
       height: auto;
       margin-bottom: 20px;
+      border-radius: 8px;     /* 圆角，看起来更柔和 */
     }
     .back-button {
       position: fixed;

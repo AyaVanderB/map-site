@@ -8,6 +8,8 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      height: 100%;
+      
     }
     .map-container {
       position: relative;
@@ -41,23 +43,31 @@
       cursor: pointer;
       display: none;
     }
+/* 默认样式：电脑端 */
     .overlay {
-      position: fixed;        /* 固定在视口上，不随滚动动 */
-      top: 0;
-      left: 0;
-      width: 100vw;           /* 占满整个视口宽度 */
-      height: 100vh;          /* 占满整个视口高度 */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 400px;
       background-color: rgba(0, 187, 255, 0.6);
-      display: none;          /* 启用flex方便居中 */
-      align-items: center;    /* 垂直居中 */
-      justify-content: center;/* 水平居中 */
-      padding: 0;
-      margin: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
       z-index: 1000;
     }
 
+    /* 手机端样式（屏幕宽度小于 768px） */
+    @media screen and (max-width: 768px) {
+      .overlay {
+        top: 25%;
+        transform: translate(-50%, 0); /* 只水平居中，垂直方向不居中 */
+      }
+    }
+
     .overlay img {
-      width: 350px;        /* 图片最大宽度不要超屏幕 */
+      width: 300px;        /* 图片最大宽度不要超屏幕 */
       height: auto;
       margin-bottom: 20px;
       border-radius: 8px;     /* 圆角，看起来更柔和 */
@@ -211,7 +221,7 @@
   <div class="overlay" id="personOverlay">
     <img src="" id="personImage" />
     <div id="personText">人物介绍</div>
-    <button class="back-button" style="top: 100px;" onclick="backToUniversity()">返回大学</button>
+    <button class="back-button" style="top: 0px;left: 0;" onclick="backToUniversity()">返回大学</button>
   </div>
 
   <!-- ✅ 地图返回按钮 -->

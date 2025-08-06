@@ -70,7 +70,7 @@
       position: fixed;
       top: 20px;
       left: 20px;
-      padding: 10px 20px;
+      padding: 20px 40px;
       background-color: #333;
       color: white;
       border: none;
@@ -225,7 +225,7 @@
   <button class="back-button" id="mapBackBtn" style="display:none;" onclick="backToMap()">返回地图</button>
 
   <!-- ✅ 大学返回按钮 -->
-  <button class="back-button" id="universityBackBtn" style="display:none; top: 60px;" onclick="backToProvince()">返回省份</button>
+  <button class="back-button" id="universityBackBtn" style="display:none; top: 90px;" onclick="backToProvince()">返回省份</button>
 
   <script>
     let currentProvince = null;
@@ -243,6 +243,8 @@
 
     function backToMap() {
       currentProvince = null;
+      backToProvince();
+      backToUniversity();
       document.querySelectorAll('.university-icon').forEach(icon => icon.style.display = 'none');
       document.querySelectorAll('.province-button').forEach(btn => btn.style.display = 'block');
       document.getElementById('mapBackBtn').style.display = 'none';
@@ -267,6 +269,7 @@
 
     function backToProvince() {
       currentUniversity = null;
+      backToUniversity();
       document.querySelectorAll('.person-icon').forEach(icon => icon.style.display = 'none');
       document.querySelectorAll('.university-icon').forEach(icon => {
         if (icon.dataset.province === currentProvince) {

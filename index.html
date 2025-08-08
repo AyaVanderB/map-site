@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   
-  <title>高校去向地图</title>
+  <title>5班蹭饭图</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       height: 100%;
+      
       
     }
     .map-container {
@@ -52,7 +53,7 @@
       transform: translate(-50%, 0%);
       width: 450px;
       height: 700px;
-      background-color: rgba(0, 187, 255, 0.6);
+      background-color: rgba(0, 187, 255, 0.8);
       flex-direction: column;
       display: none;
       align-items: center;
@@ -177,9 +178,9 @@
     <img class="person-icon" data-university="jida" src="people/14-ymq-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person14')" />
     <img class="person-icon" data-university="jida" src="people/15-zyf-icon.png" style="left: 400px; top: 650px;" onclick="showPersonOverlay('person15')" />
     <img class="person-icon" data-university="dongda" src="people/16-tzd-icon.png" style="left: 500px; top: 500px;" onclick="showPersonOverlay('person16')" />
-    <img class="person-icon" data-university="tianda" src="people/17-jra-icon.png" style="left: 200px; top: 400px;" onclick="showPersonOverlay('person17')" />
-    <img class="person-icon" data-university="tianda" src="people/18-cst-icon.png" style="left: 500px; top: 500px;" onclick="showPersonOverlay('person18')" />
-    <img class="person-icon" data-university="tianda" src="people/19-gcy-icon.png" style="left: 800px; top: 600px;" onclick="showPersonOverlay('person19')" />
+    <img class="person-icon" data-university="tianda" src="people/17-jra-icon.png" style="left: 100px; top: 400px;" onclick="showPersonOverlay('person17')" />
+    <img class="person-icon" data-university="tianda" src="people/18-cst-icon.png" style="left: 400px; top: 500px;" onclick="showPersonOverlay('person18')" />
+    <img class="person-icon" data-university="tianda" src="people/19-gcy-icon.png" style="left: 700px; top: 600px;" onclick="showPersonOverlay('person19')" />
     <img class="person-icon" data-university="haida" src="people/20-csy-icon.png" style="left: 600px; top: 500px;" onclick="showPersonOverlay('person20')" />
     <img class="person-icon" data-university="zheda" src="people/21-byy-icon.png" style="left: 200px; top: 500px;" onclick="showPersonOverlay('person21')" />
     <img class="person-icon" data-university="shangli" src="people/22-syh-icon.png" style="left: 300px; top: 300px;" onclick="showPersonOverlay('person22')" />
@@ -210,7 +211,7 @@
     <img class="person-icon" data-university="xicai" src="people/47-wxh-icon.png" style="left: 700px; top: 200px;" onclick="showPersonOverlay('person47')" />
     <img class="person-icon" data-university="chuanda" src="people/48-hkl-icon.png" style="left: 590px; top: 600px;" onclick="showPersonOverlay('person48')" />
     <img class="person-icon" data-university="xinnan" src="people/49-ysx-icon.png" style="left: 500px; top: 500px;" onclick="showPersonOverlay('person49')" />
-    <img class="person-icon" data-university="minghang" src="people/50-lsl-icon.png" style="left: 200px; top: 250px;" onclick="showPersonOverlay('person50')" />
+    <img class="person-icon" data-university="minghang" src="people/50-lsl-icon.png" style="left: 500px; top: 150px;" onclick="showPersonOverlay('person50')" />
     <!-- 添加更多人物图标时，复制上方 img，修改 data-university、src、坐标和 showPersonOverlay 参数 -->
   </div>
 
@@ -218,20 +219,29 @@
   <div class="overlay" id="personOverlay">
     <img src="" id="personImage" />
     <div id="personText">人物介绍</div>
-    <button class="back-button" style="top: 0px;left: 0;" onclick="backToUniversity()">返回大学</button>
+    <button class="back-button" style="top: 0px;left: 0;" onclick="backToUniversity()">返回选择英雄</button>
   </div>
 
   <!-- ✅ 地图返回按钮 -->
-  <button class="back-button" id="mapBackBtn" style="display:none;" onclick="backToMap()">返回地图</button>
+  <button class="back-button" id="mapBackBtn" style="display:none;" onclick="backToMap()">返回省份</button>
 
   <!-- ✅ 大学返回按钮 -->
-  <button class="back-button" id="universityBackBtn" style="display:none; top: 90px;" onclick="backToProvince()">返回省份</button>
+  <button class="back-button" id="universityBackBtn" style="display:none; top: 90px;" onclick="backToProvince()">返回大学</button>
+
+  
 
   <script>
+
+    const clickSound1 = new Audio('1.mp3')
+    const clickSound2 = new Audio('2.mp3')
+    const clickSound3 = new Audio('3.mp3')
+
     let currentProvince = null;
     let currentUniversity = null;
 
     function openProvince(province) {
+      clickSound1.currentTime = 0;
+      clickSound1.play();
       currentProvince = province;
       // 显示对应大学，隐藏所有省份按钮
       document.querySelectorAll('.university-icon').forEach(icon => {
@@ -251,6 +261,8 @@
     }
 
     function openUniversity(university, clickedElement) {
+      clickSound2.currentTime = 0;
+      clickSound2.play();
       currentUniversity = university;
 
       // 显示该大学的所有人物头像
@@ -280,50 +292,50 @@
     }
 
     const personInfo = {
-    person1: '姓名: 吉浩祥 <br>大学: 南京大学 <br>专业: 技术科学实验班 <br>我的留言: ',
+    person1: '姓名: 吉浩祥 <br>大学: 南京大学 <br>专业: 技术科学实验班 <br>我的留言: 啊啊啊宝宝你是一个酸性氧化物、碱性氧化物、两性氧化物、不成盐氧化物、电解质、非电解质、强电解质、弱电解质、溶液、胶体、悬浊液、乳浊液、丁达尔效应、电泳现象、布朗运动、化合反应、分解反应、置换反应、复分解反应、氧化还原反应、氧化剂、还原剂、氧化产物、还原产物、离子方程式、主族、副族、周期、族、周期律、电子排布、能层、能级、基态、激发态、量子数、主量子数、角量子数、磁量子数、自旋量子数、化学键、离子键、共价键、极性键、非极性键、金属键、范德华力、氢键、杂化轨道、离子晶体、分子晶体、原子晶体、金属晶体、化学反应速率、活化能、催化剂、化学平衡、平衡常数、勒沙特列原理、电离平衡、水解平衡、沉淀溶解平衡、盐类水解、酸式盐、碱式盐、含氧酸、无氧酸、正盐、含氧酸盐、无氧酸盐、可溶性盐、难溶性盐、氧化数、电子转移、原电池、盐桥、电解池、析氢腐蚀、吸氧腐蚀、溶解原理、溶解度、饱和溶液、溶解平衡、pH计算、中和滴定、缓冲溶液、盐类水解、烷烃、烯烃、炔烃、芳香烃、羟基、羧基、醛基、酯基、氨基、结构异构、立体异构、消去反应、氧化反应、加聚、缩聚、水解反应、甲烷、乙烯、乙炔、苯、甲苯、乙醇、乙酸、乙酸乙酯、葡萄糖、淀粉、蛋白质、过滤、蒸发、蒸馏、萃取、分液、结晶、酸碱滴定、氧化还原滴定、排水法、向上排气向下排气、摩尔质量、阿伏伽德罗常数、物质的量浓度、化学方程式配平、反应热计算、溶解度计算、化学平衡常数',
     person2: '姓名: 李子阳 <br>大学: 北京邮电大学 <br>专业: 计算机类 <br>我的留言: 只是一个示范,我还没想好要写什么',
     person3: '姓名: 王傲天 <br>大学: 北京邮电大学 <br>专业: 电子信息类 <br>我的留言: 没想好,笑嘻了',
-    person4: '姓名: 吴多禾 <br>大学: 北京邮电大学 <br>专业: 通信工程 <br>我的留言: ',
+    person4: '姓名: 吴多禾 <br>大学: 北京邮电大学 <br>专业: 通信工程 <br>我的留言: （别让我知道你的名字）',
     person5: '姓名: 张敏萱 <br>大学: 中央财经大学 <br>专业: 金融学 <br>我的留言: 帅是一种天赋',
     person6: '姓名: 彭子芸 <br>大学: 中国人民公安大学 <br>专业: 刑事科学技术<br>我的留言: ',
     person7: '姓名: 林振泰 <br>大学: 中国人民公安大学 <br>专业: 网络安全防范工程 <br>我的留言: ',
-    person8: '姓名: 赵怡轩 <br>大学: 中国农业大学 <br>专业: 食品科学与工程<br>我的留言: ',
-    person9: '姓名: 高驰宇 <br>大学: 北京师范大学 <br>专业:汉语言文学与人工智能双学位 <br>我的留言: ',
+    person8: '姓名: 赵怡轩 <br>大学: 中国农业大学 <br>专业: 食品科学与工程<br>我的留言: 心有所期，忙而不茫',
+    person9: '姓名: 高驰宇 <br>大学: 北京师范大学 <br>专业:汉语言文学与人工智能双学位 <br>我的留言: 谁还有多余资金？',
     person10: '姓名: 肖雨欣 <br>大学: 中国药科大学 <br>专业: <br>我的留言: 😇',
     person11: '姓名: 郭诗颖 <br>大学: 南京理工大学 <br>专业: 材料学 <br>我的留言: 你好。(两个字却透露出一丝高冷与漫不经心的从容与本人那放荡不羁的身影相得益彰结尾的句号礼貌又不失疏离恰如其分地显示了本人高贵而优雅的气质又有南京浪漫而不失厚重的文化底蕴)',
-    person12: '姓名: 汤若含 <br>大学: 南京理工大学 <br>专业: 材料学 <br>我的留言: ',
+    person12: '姓名: 汤若含 <br>大学: 南京理工大学 <br>专业: 材料学 <br>我的留言: 此人失联',
     person13: '姓名: 薛乔雅 <br>大学: 哈尔滨工程大学 <br>专业:船舶与海洋工程 <br>我的留言: 来哈尔滨吗，我会用我所有的人脉让你吃上最好吃的烧烤',
-    person14: '姓名: 杨茗茜 <br>大学: 吉林大学 <br>专业:临床医学 <br>我的留言: ',
-    person15: '姓名: 周宇帆 <br>大学: 吉林大学 <br>专业: 通信工程<br>我的留言: ',
+    person14: '姓名: 杨茗茜 <br>大学: 吉林大学 <br>专业:临床医学 <br>我的留言: 我很高冷',
+    person15: '姓名: 周宇帆 <br>大学: 吉林大学 <br>专业: 通信工程<br>我的留言: 以后拉网线来找我，友情价',
     person16: '姓名: 谭仲迪 <br>大学: 东北大学 <br>专业: 自动化类<br>我的留言: 终将打破一切质疑，吾乃河南王',
     person17: '姓名: 贾瑞安 <br>大学: 天津大学<br>专业: 电气信息<br>我的留言: 津爷学电气能化身司空震用雷霆之力把北京正黄旗干倒然后成为正统吗',
     person18: '姓名: 陈舒婷 <br>大学: 天津大学 <br>专业: 电气信息<br>我的留言: 展示电气学长一秒赚200万',
     person19: '姓名: 高楚莹 <br>大学: 天津大学 <br>专业: 智能与计算<br>我的留言: 咕咕咕，江湖有缘再见，希望大家前程似锦哦',
     person20: '姓名: 陈思远 <br>大学: 中国海洋大学<br>专业: 海洋资源开发技术<br>我的留言: ',
     person21: '姓名: 柏亦杨 <br>大学: 浙江大学 <br>专业:医学试验班 <br>我的留言: 以后我当医生，说你有病你就有病',
-    person22: '姓名: 孙祎晗 <br>大学: 上海理工大学 <br>专业: 电子信息类<br>我的留言: ',
-    person23: '姓名: 马靖杰 <br>大学: 上海海关学院 <br>专业: 海关检验检疫安全<br>我的留言: ',
-    person24: '姓名: 崔宇博 <br>大学: 厦门大学 <br>专业: 海洋与生态环境类<br>我的留言: ',
-    person25: '姓名: 许寿航 <br>大学: 中山大学 <br>专业: 智能科学与技术<br>我的留言: ',
+    person22: '姓名: 孙祎晗 <br>大学: 上海理工大学 <br>专业: 电子信息类<br>我的留言: 你好我拿一点钱',
+    person23: '姓名: 马靖杰 <br>大学: 上海海关学院 <br>专业: 海关检验检疫安全<br>我的留言: 关关难过关过，同学放心，海关有我',
+    person24: '姓名: 崔宇博 <br>大学: 厦门大学 <br>专业: 海洋与生态环境类<br>我的留言: 饿了要吃东西，渴了要喝水',
+    person25: '姓名: 许寿航 <br>大学: 中山大学 <br>专业: 智能科学与技术<br>我的留言: 愿如迎春花，先发报春信，天涯共前程',
     person26: '姓名: 符芳彬 <br>大学: 哈尔滨工业大学深圳校区 <br>专业: 计算机与电子通信<br>我的留言: 想要学好技术把自己降维去异世界',
-    person27: '姓名: 尹伊伊 <br>大学: 北京理工大学珠海校区 <br>专业: 能源与动力工程<br>我的留言: ',
+    person27: '姓名: 尹伊伊 <br>大学: 北京理工大学珠海校区 <br>专业: 能源与动力工程<br>我的留言: 俗话说得好:俗话说得好',
     person28: '姓名: 刘奕松 <br>大学: 北京理工大学珠海校区 <br>专业: 航空航天工程<br>我的留言: 逸一时，误一世',
     person29: '姓名: 邢景皓 <br>大学: 北京理工大学珠海校区  <br>专业: 航空航天工程<br>我的留言: 天才一般有两个特征，第一个健忘，第二个我忘了',
     person30: '姓名: 王祎笑 <br>大学: 香港科技大学 <br>专业: 理学<br>我的留言: 香港你敢地域歧视我一下试试呢 如果看男同是一种功德那我讲名垂千史',
-    person31: '姓名: 王则深 <br>大学: 香港城市大学 <br>专业: 工学院<br>我的留言: ',
+    person31: '姓名: 王则深 <br>大学: 香港城市大学 <br>专业: 工学院<br>我的留言: 是人啊？有脑啊？建议港城市继续充钱变成亚洲第一！看到留言的都来找我玩好吗？好的～',
     person32: '姓名: 何墨轩 <br>大学: 北京邮电大学 <br>专业: 智能医学工程<br>我的留言: ',
-    person33: '姓名: 董振轩 <br>大学: 中南大学 <br>专业: 计算机类 <br>我的留言: ',
+    person33: '姓名: 董振轩 <br>大学: 中南大学 <br>专业: 计算机类 <br>我的留言: .',
     person34: '姓名: 林奕辰 <br>大学: 武汉大学 <br>专业: 导航工程(智能导航创新班) <br>我的留言: 关于明天的事 你后天就知道了',
     person35: '姓名: 万启涵 <br>大学: 武汉大学 <br>专业: 遥感科学与技术 <br>我的留言: ',
     person36: '姓名: 张皖豪 <br>大学: 华中科技大学 <br>专业: 电子信息(集成电路类) <br>我的留言: 我的留言:真服了 买了几十根旺旺碎冰冰放冰箱结果冻的太硬吃不了  就拿出来放到地上 想着化一点再吃  但是天太热了全是是汗受不了就去洗了个澡 出来的时候没注意  这碎冰冰包装也没破损不知道怎么地上就化了一滩水 我这时候衣服也没穿一个不注意就滑倒了  结果刚好有一个草莓味的碎冰冰是竖着插在这一堆里的  一下子坐上去了  我赶紧就取结果也取不出来 很滑  最后没办法我就来医院了  医生你要相信我',
-    person37: '姓名: 钟晓文 <br>大学: 华中科技大学 <br>专业: 临床医学 <br>我的留言: ',
+    person37: '姓名: 钟晓文 <br>大学: 华中科技大学 <br>专业: 临床医学 <br>我的留言: 横扫饥饿，做回自己',
     person38: '姓名: 杨逸之 <br>大学: 华中科技大学 <br>专业: 自动化类 <br>我的留言: ',
-    person39: '姓名: 卢泽宇 <br>大学: 武汉理工大学 <br>专业: 人工智能 <br>我的留言: ',
+    person39: '姓名: 卢泽宇 <br>大学: 武汉理工大学 <br>专业: 人工智能 <br>我的留言: 菜就多练练',
     person40: '姓名: 黄君颖 <br>大学: 陕西师范大学 <br>专业: 科学教育 <br>我的留言: 前面忘了后面忘了中间忘了总之就是欢迎大家来玩原原十六神',
-    person41: '姓名: 陈柳嫣 <br>大学: 西安电子科技大学 <br>专业: 计算机 <br>我的留言: ',
+    person41: '姓名: 陈柳嫣 <br>大学: 西安电子科技大学 <br>专业: 计算机 <br>我的留言: 我是魔王',
     person42: '姓名: 赵子仪 <br>大学: 西安电子科技大学 <br>专业:电子工程 <br>我的留言:西安简直就是一个乙游大世界。想要成熟稳重双开门有小黄老师，想要幽默不失风趣有黄君颖小蛋糕，如果想要我们的老公姐还有黑暗大帝黄君颖，要我说你们黄总粉丝吃的也真是太好了。今天我已经垂直入坑了！ ',
     person43: '姓名: 张之度 <br>大学: 西安电子科技大学 <br>专业: 集成电路 <br>我的留言: 留言好难，前程似锦',
-    person44: '姓名: 张艺严 <br>大学: 西安电子科技大学 <br>专业:电子工程 <br>我的留言: ',
+    person44: '姓名: 张艺严 <br>大学: 西安电子科技大学 <br>专业:电子工程 <br>我的留言: 修电脑请找赵子怡',
     person45: '姓名: 谢焕羽 <br>大学: 电子科技大学 <br>专业: 工科试验班(电子工程类) <br>我的留言: 哥的睡眠时长又是谁的一辈子',
     person46: '姓名: 徐浚耀 <br>大学: 电子科技大学 <br>专业: 电子信息类 <br>我的留言: ',
     person47: '姓名: 王星皓 <br>大学: 西南财经大学 <br>专业: 金融数学 <br>我的留言: 毕了业也要被数学支配，蕾真的赢了，成都好热',
@@ -335,11 +347,22 @@
   };
 
     function showPersonOverlay(personId) {
-      // 你可以根据 personId 设置不同图片和文字
-      document.getElementById('personImage').src = `people/${personId}.png`;
+      clickSound3.currentTime = 0;
+      clickSound3.play();
+      // 设置图片路径，person1 特殊处理为 GIF
+      if (personId === 'person2') {
+        document.getElementById('personImage').src = `people/person2.gif`;
+      } else {
+        document.getElementById('personImage').src = `people/${personId}.png`;
+      }
+
+      // 设置人物介绍文本
       document.getElementById('personText').innerHTML = personInfo[personId] || '暂无介绍';
+
+      // 显示遮罩层
       document.getElementById('personOverlay').style.display = 'flex';
     }
+
 
     function backToUniversity() {
       document.getElementById('personOverlay').style.display = 'none';

@@ -65,7 +65,7 @@
       width: 300px;        /* 图片最大宽度不要超屏幕 */
       height: auto;
       margin-bottom: 20px;
-      border-radius: 8px;     /* 圆角，看起来更柔和 */
+      border-radius: 8px;     /* 圆角 */
     }
     .back-button {
       position: fixed;
@@ -82,7 +82,7 @@
 </head>
 <body>
   <div class="map-container" id="map">
-    <!-- ✅ 省份按钮 -->
+    <!-- 省份按钮 -->
     <button class="province-button" style="left: 550px; top: 500px;" onclick="openProvince('jiangsu')"></button>
     <button class="province-button" style="left: 460px; top: 350px;" onclick="openProvince('beijing')"></button>
     <button class="province-button" style="left: 600px; top: 150px;" onclick="openProvince('heilongjiang')"></button>
@@ -103,7 +103,7 @@
     <button class="province-button" style="left: 850px; top: 770px;" onclick="openProvince('adly')"></button>
     <!-- 添加更多省份按钮时，复制上方按钮，并修改坐标和 openProvince 参数 -->
 
-    <!-- ✅ 大学图标 -->
+    <!-- 大学图标 -->
     <!-- 江苏 -->
     <img class="university-icon" data-province="jiangsu" src="college/nanjing-col-1.png" style="left: 200px; top: 200px;" onclick="openUniversity('nanjingdaxue', this)" />
     <img class="university-icon" data-province="jiangsu" src="college/nanjing-col-2.png" style="left: 400px; top: 400px;" onclick="openUniversity('zhongyao', this)" />
@@ -158,10 +158,7 @@
     <img class="university-icon" data-province="adly" src="college/adly-col.png" style="left: 400px; top: 400px;" onclick="openUniversity('xinnan', this)" />
 
 
-
-    <!-- 添加更多大学图标时，复制上方 img，修改 data-province、src、坐标和 openUniversity 参数 -->
-
-    <!-- ✅ 人物图标 -->
+    <!--  人物图标 -->
     <img class="person-icon" data-university="nanjingdaxue" src="people/1-jhx-icon.png" style="left: 630px; top: 600px;" onclick="showPersonOverlay('person1')" />
     <img class="person-icon" data-university="beiyou" src="people/2-lzy-icon.png" style="left: 0px; top: 0px;" onclick="showPersonOverlay('person2')" />
     <img class="person-icon" data-university="beiyou" src="people/3-wat-icon.png" style="left: 500px; top: 600px;" onclick="showPersonOverlay('person3')" />
@@ -212,20 +209,20 @@
     <img class="person-icon" data-university="chuanda" src="people/48-hkl-icon.png" style="left: 590px; top: 600px;" onclick="showPersonOverlay('person48')" />
     <img class="person-icon" data-university="xinnan" src="people/49-ysx-icon.png" style="left: 500px; top: 500px;" onclick="showPersonOverlay('person49')" />
     <img class="person-icon" data-university="minghang" src="people/50-lsl-icon.png" style="left: 500px; top: 150px;" onclick="showPersonOverlay('person50')" />
-    <!-- 添加更多人物图标时，复制上方 img，修改 data-university、src、坐标和 showPersonOverlay 参数 -->
+
   </div>
 
-  <!-- ✅ 人物全屏展示层 -->
+  <!-- 人物全屏展示层 -->
   <div class="overlay" id="personOverlay">
     <img src="" id="personImage" />
     <div id="personText">人物介绍</div>
     <button class="back-button" style="top: 0px;left: 0;" onclick="backToUniversity()">返回选择英雄</button>
   </div>
 
-  <!-- ✅ 地图返回按钮 -->
+  <!-- 地图返回按钮 -->
   <button class="back-button" id="mapBackBtn" style="display:none;" onclick="backToMap()">返回省份</button>
 
-  <!-- ✅ 大学返回按钮 -->
+  <!-- 大学返回按钮 -->
   <button class="back-button" id="universityBackBtn" style="display:none; top: 90px;" onclick="backToProvince()">返回大学</button>
 
   
@@ -278,7 +275,7 @@
           icon.style.display = 'block';
         }
       });
-      // ✅ 只隐藏当前点击的大学图标
+      // 只隐藏当前点击的大学图标
       clickedElement.style.display = 'none';
 
       // 显示返回按钮
@@ -355,7 +352,7 @@
 
     function showPersonOverlay(personId) {
       Sound3();
-      // 设置图片路径，person1 特殊处理为 GIF
+      // 设置图片路径
       if (personId === 'person2') {
         document.getElementById('personImage').src = `people/person2.gif`;
       } else {
